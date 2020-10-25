@@ -4,17 +4,17 @@ import CommentCreate from './CommentCreate';
 import CommentList from './CommentList';
 
 export default () => {
-  const [posts, setPosts] = useState({}); // note all the posts are inside an object not array
-  //
+  const [posts, setPosts] = useState({});
+
   const fetchPosts = async () => {
     const res = await axios.get('http://localhost:4000/posts');
-    // when requesting axios all the response is under data property
+
     setPosts(res.data);
   };
 
   useEffect(() => {
     fetchPosts();
-  }, []); // this empty array tells React to fetchPosts onetime
+  }, []);
 
   const renderedPosts = Object.values(posts).map((post) => {
     return (

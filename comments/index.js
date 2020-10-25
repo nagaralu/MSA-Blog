@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
 const cors = require('cors');
+const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,7 +28,21 @@ app.post('/posts/:id/comments', async (req, res) => {
 
   commentsByPostId[req.params.id] = comments;
 
+  await axios.post('http://localhost:4005/events', {
+    type: 'CommentCreated',
+    data: {
+      id: commentId,
+      content,
+      postId: req.params.id
+    }
+  });
+
   res.status(201).send(comments);
+});
+
+app.post('/events', async (req, res) => {
+  console.log('Received Event:', req.body.type);
+  res.send({});
 });
 
 app.listen(4001, () => {
