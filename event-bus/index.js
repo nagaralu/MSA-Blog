@@ -21,6 +21,10 @@ app.post('/events', (req, res) => {
   res.send({ status: 'OK' });
 });
 
+app.get('/events', (req, res) => {
+  res.send(events);
+});
+
 app.listen(4005, () => {
   console.log('Listening on 4005');
 });
